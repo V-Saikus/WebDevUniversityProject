@@ -1,0 +1,434 @@
+openapi: 3.0.3
+info:
+  title: Audience reservation
+  description: REST API service that allow to reserve audience from 1 hour to 5 days
+  version: 1.0.0
+paths:
+  '/user/{userId}':
+    get:
+      tags:
+        - User
+      description: Get user data
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: Invalid Id supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - User
+      description: Update user data
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_create'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: User is not authorized
+        '404':
+          description: User not found
+      security:
+        - api_key: []
+  /user:
+    post:
+      tags:
+        - User
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_create'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json: {}
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '409':
+          description: User with such email already exists
+  /audience:
+    get:
+      tags:
+        - Audience
+      description: Gets all audiences
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/audience_full_data'
+                nullable: false
+        '404':
+          description: There are no audiences
+    post:
+      tags:
+        - Audience
+      description: Create audience
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/audience_create'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audience'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: User is not authorized
+      security:
+        - api_key: []
+  '/audience/{audienceId}':
+    get:
+      tags:
+        - Audience
+      description: Gets audience by id
+      parameters:
+        - name: audienceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audience_full_data'
+        '400':
+          description: Invalid Id supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '404':
+          description: Audience not found
+    put:
+      tags:
+        - Audience
+      description: Updates audience
+      parameters:
+        - name: audienceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/audience_create'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audience_full_data'
+        '400':
+          description: Invalid Id supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: User is not authorized
+        '404':
+          description: Audience not found
+      security:
+        - api_key: []
+  /audience/reserve:
+    post:
+      tags:
+        - Reserve audience
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reservation_create'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reservation'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: User is not authorized
+        '409':
+          description: Auditory is reserved for entered time
+      security:
+        - api_key: []
+  '/audience/reserve/{reservationId}':
+    get:
+      tags:
+        - Reserve audience
+      description: ''
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reservation'
+        '400':
+          description: Invalid id supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '404':
+          description: Audience not found
+    put:
+      tags:
+        - Reserve audience
+      description: ''
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reservation_update'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reservation'
+        '400':
+          description: Invalid body supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: User is not authorized
+        '404':
+          description: Reservation not found
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - Reserve audience
+      description: ''
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation deleted
+        '401':
+          description: User is not authorized
+        '404':
+          description: Reservation deleted
+      security:
+        - api_key: []
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        birthday:
+          type: string
+          format: date
+        email:
+          type: string
+          example: exampke@sth.com
+        phone_number:
+          type: string
+          example: '+380955552233'
+      nullable: false
+    audience:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        user_id:
+          type: string
+        price_for_hour:
+          type: number
+          format: double
+      nullable: false
+    reservation:
+      type: object
+      properties:
+        id:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+        audience_id:
+          type: string
+      nullable: false
+    user_create:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        birthday:
+          type: string
+          format: date
+        email:
+          type: string
+          example: exampke@sth.com
+        phone_number:
+          type: string
+          example: '+380955552233'
+      nullable: false
+    error:
+      type: object
+      properties:
+        error_message:
+          type: string
+      nullable: false
+    audience_create:
+      type: object
+      properties:
+        name:
+          type: string
+        price_for_hour:
+          type: number
+          format: double
+      nullable: false
+    audience_full_data:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        user_id:
+          type: string
+        price_for_hour:
+          type: number
+          format: double
+        reserved_time:
+          type: array
+          items:
+            type: object
+            properties:
+              start_time:
+                type: string
+                format: date-time
+              end_time:
+                type: string
+                format: date-time
+            nullable: false
+          nullable: false
+      nullable: false
+    reservation_create:
+      type: object
+      properties:
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+        audience_id:
+          type: string
+      nullable: false
+    reservation_update:
+      type: object
+      properties:
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        audience_id:
+          type: string
+      nullable: false
+  securitySchemes:
+    api_key:
+      name: api_key
+      in: header
+      type: apiKey
+

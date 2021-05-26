@@ -1,0 +1,20 @@
+[run]
+branch = True
+source =
+    .
+omit =
+    test.py
+    alembic/env.py
+    tests/*
+    test_app.py
+    launch.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+    def repr
+    if self.debug
+
+    if 0:
+    if name == .main.:

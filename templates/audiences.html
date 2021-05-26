@@ -2,7 +2,9 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="audiences_style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="../static/js/audiences.js"></script>
+    <link rel="stylesheet" href="../static/css/audiences_style.css">
   </head>
   <body>
 
@@ -10,18 +12,18 @@
         <ul class="navbar-nav">
     
           <li class="nav-item">
-            <a href="profile.html" class="nav-link">
-              <img class="svg" src="user.svg">
+            <a href="/profile" class="nav-link">
+              <img class="svg" src="../static/img/user.svg">
             </a>
           </li>
           <li class="nav-item">
-            <a href="audiences.html" class="nav-link">
-              <img class="svg" src="building.svg">
+            <a href="/audiences" class="nav-link">
+              <img class="svg" src="../static/img/building.svg">
             </a>
           </li>
           <li class="nav-item">
-            <a href="login.html" class="nav-link">
-              <img class="svg" src="sign-out.svg">
+            <a onclick="log_out()" class="nav-link">
+              <img class="svg" src="../static/img/sign-out.svg">
             </a>
           </li>
         </ul>
@@ -31,7 +33,7 @@
       <div id="info_box">
         <div>
           <form class="audience" method="get">
-            <img class="audience_img" src="image.png">
+            <img class="audience_img" src="../static/img/image.png">
             <div class="info">
               <div id="audience_name">{{audience_var}}</div>
             </div>
@@ -39,7 +41,7 @@
         </div>
         <div>
           <form class="audience" method="get">
-            <img class="audience_img" src="image.png">
+            <img class="audience_img" src="../static/img/image.png">
             <div class="info">
               <div id="audience_name">{{audience_var}}</div>
             </div>
@@ -47,7 +49,7 @@
         </div>
         <div>
           <form class="audience" method="get">
-            <img class="audience_img" src="image.png">
+            <img class="audience_img" src="../static/img/image.png">
             <div class="info">
               <div id="audience_name">{{audience_var}}</div>
             </div>
