@@ -1,0 +1,4 @@
+alembic init alembic
+alembic revision --autogenerate
+alembic upgrade head
+psql -h localhost -d swaggerdb -U postgres -p 5432 -a -q -f create_tables

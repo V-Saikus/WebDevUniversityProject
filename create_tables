@@ -1,0 +1,30 @@
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	first_name VARCHAR NOT NULL,
+	second_name VARCHAR,
+	birthday VARCHAR,
+	email VARCHAR(345) NOT NULL,
+	phone_number VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE audiences (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	user_id INT,
+	price_for_hour DECIMAL NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE reservations (
+	id SERIAL PRIMARY KEY,
+	start_time TIMESTAMP NOT NULL,
+	end_time TIMESTAMP NOT NULL,
+	user_id INT,
+	audience_id INT,
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (audience_id) REFERENCES audiences(id)
+);
+
+insert into users(first_name, email, phone_number) values ('user', 'example@gmail.com', '0983485535');
+insert into audiences(name, price_for_hour) values ('audience', '100');
+insert into reservations(start_time, end_time) values ('2018-12-25 09:27:53', '2018-12-25 11:27:53');
