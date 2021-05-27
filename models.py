@@ -8,15 +8,15 @@ class User(Base):
     birthday = db.Column('birthday', db.VARCHAR(length=100))
     email = db.Column('email', db.VARCHAR(length=345), nullable=False)
     phone_number = db.Column('phone_number', db.VARCHAR(length=50), nullable=False)
-    password = db.Column('password', db.VARCHAR(length=1234), nullable=False)
-
+    password = db.Column('password', db.VARCHAR(length=300), nullable=False)
+    role = db.Column('role', db.VARCHAR(length=20))
 
 class Audience(Base):
     id = db.Column('id', db.INTEGER, primary_key=True, unique=True)
     name = db.Column('name', db.VARCHAR(length=100), nullable=False)
+    price_for_hour = db.Column('price_for_hour', db.FLOAT, nullable=False)
     user_id = db.Column('user_id', db.INTEGER, db.ForeignKey(User.id))
     user = db.relationship("User", backref=db.backref("user"))
-    price_for_hour = db.Column('price_for_hour', db.FLOAT, nullable=False)
 
 
 class Reservation(Base):
