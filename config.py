@@ -4,10 +4,12 @@ import os
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy_utils import database_exists, create_database
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_cors import CORS
 
 auth = HTTPBasicAuth()
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 app.secret_key = 'secret secret'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = URL = 'mysql+mysqlconnector://{user}:{password}@{server}/{database}'.format(
